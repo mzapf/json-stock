@@ -10,6 +10,8 @@ const ItemControls = ({ itemName, originalValue, adjustedValue, onIncrement, onD
         }
     };
 
+    const valuesMatch = adjustedValue === originalValue;
+
     return (
         <div className="pl-8 flex flex-row">
             <div>
@@ -28,7 +30,11 @@ const ItemControls = ({ itemName, originalValue, adjustedValue, onIncrement, onD
             </div>
             <div>
                 <span>{itemName}: {adjustedValue} </span>
-                <span className="text-gray-500">({originalValue})</span>
+                {valuesMatch ? (
+                    <span className="text-green-500">✓</span>
+                ) : (
+                    <span className="text-red-500" title={`En sistema: ${originalValue}`}>✕</span>
+                )}
             </div>
         </div>
     );
