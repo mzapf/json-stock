@@ -13,7 +13,7 @@ const ItemControls = ({ itemName, originalValue, adjustedValue, onIncrement, onD
     const valuesMatch = adjustedValue === originalValue;
 
     return (
-        <div className="pl-8 flex flex-row">
+        <div className="pl-16 flex flex-row">
             <div>
                 <button
                     className="bg-green-500 text-white px-2 m-1 rounded"
@@ -28,8 +28,8 @@ const ItemControls = ({ itemName, originalValue, adjustedValue, onIncrement, onD
                     -
                 </button>
             </div>
-            <div>
-                <span>{itemName}: {adjustedValue} </span>
+            <div className="flex items-center gap-2">
+                <span>{itemName}: {adjustedValue}</span>
                 {valuesMatch ? (
                     <span className="text-green-500">✓</span>
                 ) : (
