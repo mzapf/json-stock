@@ -89,7 +89,7 @@ const StockContainer = ({ data }) => {
                         <CategoryButton
                             category={category}
                             isSelected={selectedCategory === category}
-                            onClick={() => setSelectedCategory(category)}
+                            onClick={() => setSelectedCategory(selectedCategory !== category ? category : null)}
                         />
                         {selectedCategory === category && (
                             <div>
@@ -98,7 +98,7 @@ const StockContainer = ({ data }) => {
                                         <CategoryButton
                                             category={subcategory}
                                             isSelected={selectedSubcategory === subcategory}
-                                            onClick={() => setSelectedSubcategory(subcategory)}
+                                            onClick={() => setSelectedSubcategory(selectedSubcategory !== subcategory ? subcategory : null)}
                                             isSubcategory={true}
                                         />
                                         {selectedSubcategory === subcategory && (
