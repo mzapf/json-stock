@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import CategoryButton from './CategoryButton';
 import ItemControls from './ItemControls';
+import SaveToPDF from './SaveToPDF';
 
 const StockContainer = ({ data }) => {
     const [stock, setStock] = useState(data);
@@ -78,7 +79,6 @@ const StockContainer = ({ data }) => {
         return differences;
     };
 
-
     const differences = findDifferences(adjustedStock, data);
 
     return (
@@ -122,35 +122,38 @@ const StockContainer = ({ data }) => {
                     </div>
                 ))}
             </div>
-            <button
-                className="bg-blue-500 text-white py-2 px-4 rounded mt-4"
-                onClick={toggleDifferences}
-            >
-                {showDifferences ? 'Ocultar Diferencias de Stock' : 'Ver Diferencias de Stock'}
-            </button>
-            {showDifferences && (
-                <div className="my-2">
-                    {Object.keys(differences).length > 0 ? (
-                        Object.entries(differences).map(([category, subcategories]) => (
-                            <div key={category}>
-                                <h1 className="text-xl font-semibold">{category}</h1>
-                                {Object.entries(subcategories).map(([subcategory, items]) => (
-                                    <div key={subcategory}>
-                                        <h2 className="text-lg font-semibold ml-4">{subcategory}</h2>
-                                        {items.map((item) => (
-                                            <div key={item.item} className="ml-8">
-                                                {`${item.item}: debería haber ${item.originalValue} y hay ${item.adjustedValue}`}
-                                            </div>
-                                        ))}
-                                    </div>
-                                ))}
-                            </div>
-                        ))
-                    ) : (
-                        <p>No hay diferencias.</p>
-                    )}
-                </div>
-            )}
+            <div className="flex flex-col">
+                <button
+                    className="bg-blue-500 text-white py-2 px-4 rounded mt-4"
+                    onClick={toggleDifferences}
+                >
+                    {showDifferences ? 'Ocultar Diferencias' : 'Ver Diferencias'}
+                </button>
+                {showDifferences && (
+                    <div className="my-2">
+                        {Object.keys(differences).length > 0 ? (
+                            Object.entries(differences).map(([category, subcategories]) => (
+                                <div key={category}>
+                                    <h1 className="text-xl font-semibold">{category}</h1>
+                                    {Object.entries(subcategories).map(([subcategory, items]) => (
+                                        <div key={subcategory}>
+                                            <h2 className="text-lg font-semibold ml-4">{subcategory}</h2>
+                                            {items.map((item) => (
+                                                <div key={item.item} className="ml-8">
+                                                    {`${item.item}: debería haber ${item.originalValue} y hay ${item.adjustedValue}`}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    ))}
+                                </div>
+                            ))
+                        ) : (
+                            <p>No hay diferencias.</p>
+                        )}
+                    </div>
+                )}
+                <SaveToPDF differences={differences} />
+            </div>
         </div>
     );
 };
