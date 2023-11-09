@@ -15,4 +15,3 @@ const CategoryButton = ({ category, isSelected, onClick, isSubcategory }) => {
 };
 
 export default CategoryButton;
-
