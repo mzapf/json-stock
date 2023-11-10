@@ -76,6 +76,11 @@ const styles = StyleSheet.create({
     },
 });
 
+const GetDifference = (originalValue, adjustedValue) => {
+    const difference = adjustedValue - originalValue;
+    return difference > 0 ? `+${difference}` : difference;
+};
+
 const MyDocument = ({ differences }) => (
     <Document>
         <Page size="A4" style={styles.page}>
@@ -108,7 +113,7 @@ const MyDocument = ({ differences }) => (
                                     <Text style={styles.tableCell}>{item.originalValue}</Text>
                                 </View>
                                 <View style={styles.tableCol}>
-                                    <Text style={styles.tableCell}>{item.adjustedValue - item.originalValue}</Text>
+                                    <Text style={styles.tableCell}>{GetDifference(item.originalValue, item.adjustedValue)}</Text>
                                 </View>
                             </View>
                         ))
