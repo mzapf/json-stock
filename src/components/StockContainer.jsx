@@ -9,6 +9,40 @@ const StockContainer = ({ data }) => {
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [selectedSubcategory, setSelectedSubcategory] = useState(null);
     const [showDifferences, setShowDifferences] = useState(false);
+    const [searchTerm, setSearchTerm] = useState('');
+
+    const handleSearchChange = (event) => {
+        setSearchTerm(event.target.value.toLowerCase());
+    };
+
+    const filterItems = (items) => {
+        return Object.entries(items).reduce((acc, [key, value]) => {
+            if (key.toLowerCase().includes(searchTerm)) {
+                acc[key] = value;
+            }
+            return acc;
+        }, {});
+    };
+
+    const getFilteredStock = () => {
+        if (!searchTerm) return stock;
+        return Object.keys(stock).reduce((filteredCategories, category) => {
+            const subcategories = Object.keys(stock[category]).reduce((filteredSubcategories, subcategory) => {
+                const filteredItems = filterItems(stock[category][subcategory]);
+                if (Object.keys(filteredItems).length > 0) {
+                    filteredSubcategories[subcategory] = filteredItems;
+                }
+                return filteredSubcategories;
+            }, {});
+
+            if (Object.keys(subcategories).length > 0) {
+                filteredCategories[category] = subcategories;
+            }
+            return filteredCategories;
+        }, {});
+    };
+
+    const filteredStock = getFilteredStock();
 
     const toggleDifferences = () => {
         setShowDifferences(!showDifferences);
@@ -86,8 +120,15 @@ const StockContainer = ({ data }) => {
 
     return (
         <div>
+            <input
+                type="text"
+                placeholder="Buscar item..."
+                value={searchTerm}
+                onChange={handleSearchChange}
+                className="mb-4 p-2 border rounded"
+            />
             <div>
-                {Object.keys(stock).map((category) => (
+                {Object.keys(filteredStock).map((category) => (
                     <div key={category}>
                         <CategoryButton
                             category={category}
@@ -96,7 +137,7 @@ const StockContainer = ({ data }) => {
                         />
                         {selectedCategory === category && (
                             <div>
-                                {Object.keys(stock[category]).map((subcategory) => (
+                                {Object.keys(filteredStock[category]).map((subcategory) => (
                                     <div key={subcategory}>
                                         <CategoryButton
                                             category={subcategory}
@@ -106,7 +147,7 @@ const StockContainer = ({ data }) => {
                                         />
                                         {selectedSubcategory === subcategory && (
                                             <div>
-                                                {Object.entries(stock[category][subcategory])
+                                                {Object.entries(filteredStock[category][subcategory])
                                                     .sort(([itemNameA], [itemNameB]) => itemNameA.localeCompare(itemNameB))
                                                     .map(([itemName, value]) => (
                                                         <ItemControls
