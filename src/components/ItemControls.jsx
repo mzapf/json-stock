@@ -10,6 +10,11 @@ const ItemControls = ({ itemName, originalValue, adjustedValue, onIncrement, onD
         }
     };
 
+    const showMessage = () => {
+        const difference = adjustedValue - originalValue;
+        alert(`${itemName}: debería haber ${originalValue}, ${difference > 0 ? 'sobra' : 'falta'}${Math.abs(difference) > 1 ? 'n' : ''} ${Math.abs(difference)}.`);
+    };
+
     const valuesMatch = adjustedValue === originalValue;
 
     return (
@@ -30,7 +35,9 @@ const ItemControls = ({ itemName, originalValue, adjustedValue, onIncrement, onD
             {valuesMatch ? (
                 <span className="text-green-500 text-2xl">✓</span>
             ) : (
-                <span className="text-red-500 text-2xl" title={`Hay ${originalValue} en sistema`}>✕</span>
+                <button className="text-red-500 text-2xl" onClick={showMessage} title={`Hay ${originalValue} en sistema`}>
+                    ✕
+                </button>
             )}
         </div>
     );
