@@ -23,14 +23,17 @@ const StockContainer = ({ data }) => {
         for (const category in data) {
             initializedData[category] = {};
             for (const subcategory in data[category]) {
-                initializedData[category][subcategory] = {};
-                for (const item in data[category][subcategory]) {
-                    initializedData[category][subcategory][item] = 0;
-                }
+                const sortedItemKeys = Object.keys(data[category][subcategory]).sort();
+                initializedData[category][subcategory] = sortedItemKeys.reduce((obj, key) => {
+                    obj[key] = 0;
+                    return obj;
+                }, {});
             }
         }
         setAdjustedStock(initializedData);
     };
+
+
 
     const handleIncrement = (category, subcategory, itemName, amount) => {
         setAdjustedStock(prevAdjustedStock => {
@@ -103,16 +106,18 @@ const StockContainer = ({ data }) => {
                                         />
                                         {selectedSubcategory === subcategory && (
                                             <div>
-                                                {Object.entries(stock[category][subcategory]).map(([itemName, value]) => (
-                                                    <ItemControls
-                                                        key={itemName}
-                                                        itemName={itemName}
-                                                        originalValue={value}
-                                                        adjustedValue={adjustedStock[category]?.[subcategory]?.[itemName] || 0}
-                                                        onIncrement={(amount) => handleIncrement(category, subcategory, itemName, amount)}
-                                                        onDecrement={(amount) => handleDecrement(category, subcategory, itemName, amount)}
-                                                    />
-                                                ))}
+                                                {Object.entries(stock[category][subcategory])
+                                                    .sort(([itemNameA], [itemNameB]) => itemNameA.localeCompare(itemNameB))
+                                                    .map(([itemName, value]) => (
+                                                        <ItemControls
+                                                            key={itemName}
+                                                            itemName={itemName}
+                                                            originalValue={value}
+                                                            adjustedValue={adjustedStock[category]?.[subcategory]?.[itemName] || 0}
+                                                            onIncrement={(amount) => handleIncrement(category, subcategory, itemName, amount)}
+                                                            onDecrement={(amount) => handleDecrement(category, subcategory, itemName, amount)}
+                                                        />
+                                                    ))}
                                             </div>
                                         )}
                                     </div>
