@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
         flexDirection: "row"
     },
     tableColFirstHeader: {
-        width: "40%",
+        width: "55%",
         borderStyle: "solid",
         borderColor: "#bfbfbf",
         borderBottomColor: "#000",
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
         justifyContent: "center"
     },
     tableFirstCol: {
-        width: "40%",
+        width: "55%",
         borderStyle: "solid",
         borderColor: "#bfbfbf",
         borderWidth: 1,
@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center"
     }, tableColHeader: {
-        width: "20%",
+        width: "15%",
         borderStyle: "solid",
         borderColor: "#bfbfbf",
         borderBottomColor: "#000",
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
         justifyContent: "center"
     },
     tableCol: {
-        width: "20%",
+        width: "15%",
         borderStyle: "solid",
         borderColor: "#bfbfbf",
         borderWidth: 1,
