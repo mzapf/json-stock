@@ -140,7 +140,7 @@ const StockContainer = ({ data }) => {
                                             <h2 className="text-lg font-semibold ml-4">{subcategory}</h2>
                                             {items.map((item) => (
                                                 <div key={item.item} className="ml-8">
-                                                    {`${item.item}: debería haber ${item.originalValue} y hay ${item.adjustedValue}`}
+                                                    {`${item.item}: debería haber ${item.originalValue} y hay ${item.adjustedValue}, ${item.adjustedValue > item.originalValue ? 'sobran' : 'faltan'} ${Math.abs(item.adjustedValue - item.originalValue)}.`}
                                                 </div>
                                             ))}
                                         </div>
