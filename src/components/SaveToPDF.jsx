@@ -1,3 +1,4 @@
+import { format } from 'date-fns';
 import { Page, Text, View, Document, StyleSheet, PDFDownloadLink } from '@react-pdf/renderer';
 
 const styles = StyleSheet.create({
@@ -5,6 +6,13 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         backgroundColor: '#E4E4E4',
         padding: 10,
+        paddingTop: 30
+    },
+    header: {
+        position: 'absolute',
+        right: 10,
+        top: 10,
+        fontSize: 10,
     },
     section: {
         margin: 10,
@@ -81,48 +89,53 @@ const GetDifference = (originalValue, adjustedValue) => {
     return difference > 0 ? `+${difference}` : difference;
 };
 
-const MyDocument = ({ differences }) => (
-    <Document>
-        <Page size="A4" style={styles.page}>
-            <View style={styles.table}>
-                <View style={styles.tableRow}>
-                    <View style={styles.tableColFirstHeader}>
-                        <Text style={styles.tableCellHeader}>Item</Text>
+const MyDocument = ({ differences }) => {
+    const currentDate = format(new Date(), 'HH:mm dd/MM/yyyy');
+
+    return (
+        <Document>
+            <Page size="A4" style={styles.page}>
+                <Text style={styles.header}>{currentDate}</Text>
+                <View style={styles.table}>
+                    <View style={styles.tableRow}>
+                        <View style={styles.tableColFirstHeader}>
+                            <Text style={styles.tableCellHeader}>Item</Text>
+                        </View>
+                        <View style={styles.tableColHeader}>
+                            <Text style={styles.tableCellHeader}>Stock</Text>
+                        </View>
+                        <View style={styles.tableColHeader}>
+                            <Text style={styles.tableCellHeader}>Sistema</Text>
+                        </View>
+                        <View style={styles.tableColHeader}>
+                            <Text style={styles.tableCellHeader}>Diferencia</Text>
+                        </View>
                     </View>
-                    <View style={styles.tableColHeader}>
-                        <Text style={styles.tableCellHeader}>Stock</Text>
-                    </View>
-                    <View style={styles.tableColHeader}>
-                        <Text style={styles.tableCellHeader}>Sistema</Text>
-                    </View>
-                    <View style={styles.tableColHeader}>
-                        <Text style={styles.tableCellHeader}>Diferencia</Text>
-                    </View>
+                    {Object.entries(differences).map(([category, subcategories]) =>
+                        Object.entries(subcategories).map(([subcategory, items]) =>
+                            items.map((item) => (
+                                <View style={styles.tableRow} key={`${category}-${subcategory}-${item.item}`}>
+                                    <View style={styles.tableFirstCol}>
+                                        <Text style={styles.tableCell}>{`${category} ${subcategory} ${item.item}`}</Text>
+                                    </View>
+                                    <View style={styles.tableCol}>
+                                        <Text style={styles.tableCell}>{item.adjustedValue}</Text>
+                                    </View>
+                                    <View style={styles.tableCol}>
+                                        <Text style={styles.tableCell}>{item.originalValue}</Text>
+                                    </View>
+                                    <View style={styles.tableCol}>
+                                        <Text style={styles.tableCell}>{GetDifference(item.originalValue, item.adjustedValue)}</Text>
+                                    </View>
+                                </View>
+                            ))
+                        )
+                    )}
                 </View>
-                {Object.entries(differences).map(([category, subcategories]) =>
-                    Object.entries(subcategories).map(([subcategory, items]) =>
-                        items.map((item) => (
-                            <View style={styles.tableRow} key={`${category}-${subcategory}-${item.item}`}>
-                                <View style={styles.tableFirstCol}>
-                                    <Text style={styles.tableCell}>{`${category} ${subcategory} ${item.item}`}</Text>
-                                </View>
-                                <View style={styles.tableCol}>
-                                    <Text style={styles.tableCell}>{item.adjustedValue}</Text>
-                                </View>
-                                <View style={styles.tableCol}>
-                                    <Text style={styles.tableCell}>{item.originalValue}</Text>
-                                </View>
-                                <View style={styles.tableCol}>
-                                    <Text style={styles.tableCell}>{GetDifference(item.originalValue, item.adjustedValue)}</Text>
-                                </View>
-                            </View>
-                        ))
-                    )
-                )}
-            </View>
-        </Page>
-    </Document>
-);
+            </Page>
+        </Document>
+    );
+};
 
 const SaveToPDF = ({ differences }) => {
     return (
