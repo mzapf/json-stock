@@ -9,6 +9,30 @@ JSON Stock Manager es una aplicación web construida con React que permite a los
 - **Visualización de diferencias**: La aplicación puede mostrar las diferencias entre los valores de inventario ajustados y los originales.
 - **Exportación a PDF**: Los usuarios pueden exportar un resumen de las diferencias de inventario a un archivo PDF.
 
+## Formato de Archivo JSON Aceptado
+
+El sistema acepta archivos JSON con una estructura específica para representar los datos de inventario. Ejemplo del formato esperado:
+
+```json
+{
+  "Categoría1": {
+    "Subcategoría1": {
+      "Artículo1": 100,
+      "Artículo2": 150
+    },
+    "Subcategoría2": {
+      "Artículo3": 200,
+      "Artículo4": 50
+    }
+  },
+  "Categoría2": {
+    "Subcategoría3": {
+      "Artículo5": 75
+    }
+  }
+}
+```
+
 ## Tecnologías Utilizadas
 
 - [React](https://es.reactjs.org/)
