@@ -138,11 +138,12 @@ const MyDocument = ({ differences }) => {
 };
 
 const SaveToPDF = ({ differences }) => {
+    const fileName = `stock-${format(new Date(), 'ddMMyy')}.pdf`;
     return (
         <button className="bg-orange-500 text-white py-2 px-4 rounded mt-4">
             <PDFDownloadLink
                 document={<MyDocument differences={differences} />}
-                fileName="stock-resumen.pdf"
+                fileName={fileName}
             >
                 {({ blob, url, loading, error }) =>
                     loading ? 'Cargando documento...' : 'Descargar Resumen'
